@@ -15,5 +15,12 @@
   "bugs": {
     "url": "https://github.com/comp426-2022-spring/a04-SakDev/issues"
   },
-  "homepage": "https://github.com/comp426-2022-spring/a04-SakDev#readme"
+  "homepage": "https://github.com/comp426-2022-spring/a04-SakDev#readme",
+  "dependencies": {
+    "better-sqlite3": "^7.5.1",
+    "express": "^4.17.3",
+    "minimist": "^1.2.6",
+    "morgan": "^1.10.0",
+    "sqlite3": "^5.0.4"
+  }
 }
