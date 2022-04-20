@@ -35,7 +35,7 @@ server.js [options]
 `);
 
 if (args.help || args.h) {
-    console.log(helpMSG)
+    console.log(help_msg)
     process.exit(0)
 }
 
