@@ -46,15 +46,15 @@ if (log == true) {
     console.log("No log written.")
 }
 
-if (args.debug === true) {
+if (args.debug) {
     app.get('/app/log/access', (req, res) => {
-        const stmt = db.prepare('SELECT * FROM accesslog').all();
-        res.status(200).json(stmt)
+        const statement = db.prepare('SELECT * FROM accesslog').all();
+        res.status(200).json(statement)
         //res.writeHead(res.statusCode, {"Content-Type" : "text/json"});
     })
 
     app.get('/app/error', (req, res) => {
-        throw new Error('Error test successful.')
+        throw new Error('error test successful.')
     })
 }
 
