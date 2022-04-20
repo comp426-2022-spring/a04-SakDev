@@ -42,9 +42,10 @@ if (args.help || args.h) {
 if (log == true) {
     const accesslog = fs.createWriteStream('access.log', { flags: 'a' })
     app.use(morgan('combined', {stream: accesslog}))
-} else {
-    console.log("No log written.")
-}
+} 
+// else {
+//     console.log("No written log.")
+// }
 
 if (args.debug) {
     app.get('/app/log/access', (req, res) => {
