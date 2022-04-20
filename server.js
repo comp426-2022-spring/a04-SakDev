@@ -17,7 +17,7 @@ const server = app.listen(port, () => {
     console.log('App listening on port %PORT%'.replace('%PORT%',port))
 });
 
-const logdb = require("./database.js");
+const db = require("./database.js");
 const fs = require('fs');
 const morgan = require('morgan');
 
