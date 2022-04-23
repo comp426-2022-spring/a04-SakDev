@@ -7,7 +7,7 @@ const args = require('minimist')(process.argv.slice(2))
 args["port", "debug", "log", "help"]
 console.log(args)
 
-const port = args["port"] || process.env.PORT || 5000
+const port = args.port || process.env.PORT || 5555
 const debug = args.debug || false
 const log = args.log || true
 const help = args.help
@@ -20,6 +20,8 @@ const server = app.listen(port, () => {
 const db = require("./database.js");
 const fs = require('fs');
 const morgan = require('morgan');
+app.use(express.urlencoded({ extended: true}));
+app.use(express.json())
 
 const help_msg = (`
 server.js [options]
@@ -39,10 +41,10 @@ if (args.help || args.h) {
     process.exit(0)
 }
 
-// if (log == true) {
+if (args.log == true) {
     const accesslog = fs.createWriteStream('access.log', { flags: 'a' })
     app.use(morgan('combined', {stream: accesslog}))
-// } 
+} 
 // else {
 //     console.log("No written log.")
 // }
