@@ -4,9 +4,8 @@ const app = express()
 const morgan = require("morgan")
 const fs = require("fs")
 const db = require("./database.js")
-const port = argv["port"] || 3000
 const argv = minimist(process.argv.slice(2))
-
+const port = argv["port"] || 3000
 
 
 const help = (`
