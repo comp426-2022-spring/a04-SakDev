@@ -2,28 +2,31 @@
 const express = require('express')
 const app = express()
 
+const minimist = require('minimist')
+
+
 const args = require('minimist')(process.argv.slice(2))
 
 args["port", "debug", "log", "help"]
 console.log(args)
 
-const port = args.port || process.env.PORT || 5555
+const port = args.port || process.env.PORT || 3000
 const debug = args.debug || false
 const log = args.log || true
-const help = args.help
+// const help = args.help
 
 // Start an app server
 const server = app.listen(port, () => {
     console.log('App listening on port %PORT%'.replace('%PORT%',port))
 });
 
-const db = require("./database.js");
+const logdb = require("./database.js");
 const fs = require('fs');
 const morgan = require('morgan');
-app.use(express.urlencoded({ extended: true}));
-app.use(express.json())
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
 
-const help_msg = (`
+const help = (`
 server.js [options]
 --por		Set the port number for the server to listen on. Must be an integer
               between 1 and 65535.
@@ -37,7 +40,7 @@ server.js [options]
 `);
 
 if (args.help || args.h) {
-    console.log(help_msg)
+    console.log(help)
     process.exit(0)
 }
 
@@ -51,7 +54,7 @@ if (args.log == true) {
 
 if (args.debug) {
     app.get('/app/log/access', (req, res) => {
-        const statement = db.prepare('SELECT * FROM accesslog').all();
+        const statement = logdb.prepare('SELECT * FROM accesslog').all();
         res.status(200).json(statement)
         //res.writeHead(res.statusCode, {"Content-Type" : "text/json"});
     })
@@ -75,7 +78,7 @@ app.use((req, res, next) => {
             useragent: req.headers['user-agent']
         }
         console.log(logData)
-        const stmt = db.prepare('INSERT INTO accesslog (remoteaddr, remoteuser, time, method, url, protocol, httpversion, status, referer, useragent) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
+        const stmt = logdb.prepare('INSERT INTO accesslog (remoteaddr, remoteuser, time, method, url, protocol, httpversion, status, referer, useragent) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
         const info = stmt.run(logData.remoteaddr, logData.remoteuser, logData.time, logData.method, logData.url, logData.protocol, logData.httpversion, logData.status, logData.referer, logData.useragent)
         next()
     })
